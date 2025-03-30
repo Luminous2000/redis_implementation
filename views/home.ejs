@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %> 
+    <%if (JSON.stringify(locals.user) !== '{}') { %>
+        <title>Homepage</title>
+    <% } else { %>
+        <title>Login</title>
+    <% } %>
+</head>
+<body>
+    <%- include('partials/nav') %>
+    
+    <div class="container mt-3 ">
+        <h1>Welcome to LetsBlog</h1>
+        <p>Share your thoughts with the world!</p>
+        <div class="cards mt-3 row row-cols-3" </div>   
+        
+            <div class="col">
+                <% if (locals.blogs && locals.blogs.length > 0) { %>
+                    <% blogs.forEach(blog=>{ %>
+                    <div class="card" style="width: 16rem; margin-bottom: 10px;">
+                        <img src="<%= blog.coverImageURL %>" alt="Blog Cover Image" class="card-img-top" style="height: 100px; object-fit: cover;">
+                        <div class="card-body">
+                        <h5 class="card-title"><%= blog.title %></h5>
+
+                        <a href="/blog/<%= blog._id %>" class="btn btn-primary">Read More</a>
+                    </div>
+                </div>
+                <% }) %>
+                <% } else { %>
+                    <p>No blogs found</p>
+                <% } %>
+            </div>
+        
+    </div>
+    </div>
+
+    <%- include('partials/scripts') %>
+</body>
+</html>

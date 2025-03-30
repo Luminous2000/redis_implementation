@@ -1,0 +1,53 @@
+<nav class="navbar">
+    <div class="container">
+        <a href="/" class="navbar-brand">
+            <i class="fas fa-blog"></i>
+            Blog App
+        </a>
+
+        <button class="mobile-menu-toggle" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <ul class="nav-links">
+            <li><a href="/" class="<%= path === '/' ? 'active' : '' %>">Home</a></li>
+            <li><a href="/posts" class="<%= path.startsWith('/posts') ? 'active' : '' %>">Posts</a></li>
+            
+            <% if (locals.user) { %>
+                <li><a href="/dashboard" class="<%= path === '/dashboard' ? 'active' : '' %>">Dashboard</a></li>
+                <li class="dropdown">
+                    <button class="dropdown-toggle">
+                        <i class="fas fa-user"></i>
+                        <%= user.name %>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/auth/profile"><i class="fas fa-user-edit"></i> Profile</a></li>
+                        <li><a href="/auth/settings"><i class="fas fa-cog"></i> Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="/auth/logout" method="POST" class="d-inline">
+                                <button type="submit" class="dropdown-item">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            <% } else { %>
+                <li><a href="/auth/login" class="<%= path === '/auth/login' ? 'active' : '' %>">Login</a></li>
+                <li><a href="/auth/register" class="<%= path === '/auth/register' ? 'active' : '' %>">Register</a></li>
+            <% } %>
+        </ul>
+    </div>
+</nav>
+
+<% if(locals.error){ %>
+  <div class="container mt-4">
+
+    <div class="alert alert-danger" role="alert">
+      <%= locals.error %>
+    </div>
+  </div>
+<% } %>

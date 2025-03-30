@@ -1,0 +1,85 @@
+<div class="search-container">
+    <form action="/search" method="GET" class="search-form">
+        <div class="input-group">
+            <input 
+                type="text" 
+                name="q" 
+                class="form-control" 
+                placeholder="Search posts..."
+                value="<%= locals.query || '' %>"
+                aria-label="Search posts"
+            >
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+
+        <% if (locals.query) { %>
+            <div class="search-filters">
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        <option value="technology" <%= locals.category === 'technology' ? 'selected' : '' %>>Technology</option>
+                        <option value="lifestyle" <%= locals.category === 'lifestyle' ? 'selected' : '' %>>Lifestyle</option>
+                        <option value="travel" <%= locals.category === 'travel' ? 'selected' : '' %>>Travel</option>
+                        <option value="food" <%= locals.category === 'food' ? 'selected' : '' %>>Food</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Sort By:</label>
+                    <select name="sort" class="form-select">
+                        <option value="recent" <%= locals.sort === 'recent' ? 'selected' : '' %>>Most Recent</option>
+                        <option value="popular" <%= locals.sort === 'popular' ? 'selected' : '' %>>Most Popular</option>
+                        <option value="title" <%= locals.sort === 'title' ? 'selected' : '' %>>Title</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-secondary" onclick="clearSearch()">
+                    <i class="fas fa-times"></i> Clear
+                </button>
+            </div>
+        <% } %>
+    </form>
+
+    <% if (locals.query && locals.results) { %>
+        <div class="search-results">
+            <h3>Search Results for "<%= query %>"</h3>
+            <p class="results-count">
+                Found <%= results.length %> <%= results.length === 1 ? 'result' : 'results' %>
+            </p>
+
+            <% if (results.length > 0) { %>
+                <div class="results-grid">
+                    <% results.forEach(post => { %>
+                        <div class="result-card">
+                            <h4><%= post.title %></h4>
+                            <p class="result-meta">
+                                By <%= post.author %> | 
+                                <%= new Date(post.createdAt).toLocaleDateString() %>
+                            </p>
+                            <p class="result-excerpt">
+                                <%= post.content.substring(0, 150) %>...
+                            </p>
+                            <a href="/posts/<%= post.id %>" class="btn btn-link">
+                                Read More
+                            </a>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <div class="no-results">
+                    <p>No posts found matching your search criteria.</p>
+                    <p>Try different keywords or check out our <a href="/posts">all posts</a>.</p>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+</div>
+
+<script>
+function clearSearch() {
+    window.location.href = '/posts';
+}
+</script> 

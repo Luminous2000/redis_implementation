@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>Error</title>
+</head>
+<body>
+    <%- include('partials/nav') %>
+    
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="error-container">
+                            <div class="error-content">
+                                <div class="error-code">
+                                    <%= error.status || 500 %>
+                                </div>
+                                
+                                <h1 class="error-title">
+                                    <%= message || 'Something went wrong' %>
+                                </h1>
+
+                                <p class="error-message">
+                                    <% if (error.status === 404) { %>
+                                        The page you're looking for doesn't exist or has been moved.
+                                    <% } else if (error.status === 403) { %>
+                                        You don't have permission to access this resource.
+                                    <% } else if (error.status === 401) { %>
+                                        Please log in to access this page.
+                                    <% } else { %>
+                                        An unexpected error occurred. Please try again later.
+                                    <% } %>
+                                </p>
+
+                                <div class="error-actions">
+                                    <a href="/" class="btn btn-primary">
+                                        <i class="fas fa-home"></i> Go to Homepage
+                                    </a>
+                                    <button onclick="history.back()" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Go Back
+                                    </button>
+                                </div>
+
+                                <% if (process.env.NODE_ENV === 'development' && error.stack) { %>
+                                    <div class="error-stack">
+                                        <pre><%= error.stack %></pre>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/scripts') %>
+</body>
+</html> 

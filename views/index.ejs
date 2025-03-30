@@ -1,0 +1,53 @@
+<div class="hero">
+    <div class="hero-content">
+        <h1>Welcome to Blog App</h1>
+        <p>Share your thoughts and ideas with the world</p>
+        <% if (!user) { %>
+            <div class="hero-buttons">
+                <a href="/auth/register" class="btn btn-primary">Get Started</a>
+                <a href="/auth/login" class="btn btn-secondary">Login</a>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<section class="latest-posts">
+    <h2>Latest Posts</h2>
+    <% if (locals.posts && locals.posts.length > 0) { %>
+        <div class="posts-grid">
+            <% posts.slice(0, 6).forEach(post => { %>
+                <article class="post-card">
+                    <h3><%= post.title %></h3>
+                    <p class="post-meta">
+                        By <%= post.author %> | 
+                        <%= new Date(post.createdAt).toLocaleDateString() %>
+                    </p>
+                    <p class="post-excerpt">
+                        <%= post.content.substring(0, 150) %>...
+                    </p>
+                    <a href="/posts/<%= post.id %>" class="btn btn-link">Read More</a>
+                </article>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <p class="no-posts">No posts yet. Be the first to create one!</p>
+    <% } %>
+</section>
+
+<section class="features">
+    <h2>Why Choose Our Blog Platform?</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <h3>Easy to Use</h3>
+            <p>Simple and intuitive interface for creating and managing your blog posts.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Real-time Updates</h3>
+            <p>Get instant notifications when new posts are published.</p>
+        </div>
+        <div class="feature-card">
+            <h3>Secure</h3>
+            <p>Your data is protected with industry-standard security measures.</p>
+        </div>
+    </div>
+</section> 

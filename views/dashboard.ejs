@@ -1,0 +1,84 @@
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Welcome, <%= user.name %></h1>
+        <a href="/posts/new" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Create New Post
+        </a>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <h2>Your Posts</h2>
+            <% if (locals.userPosts && locals.userPosts.length > 0) { %>
+                <div class="posts-list">
+                    <% locals.userPosts.forEach(post => { %>
+                        <div class="post-item">
+                            <h3><%= post.title %></h3>
+                            <div class="post-meta">
+                                <span class="date">
+                                    <i class="fas fa-calendar"></i> 
+                                    <%= new Date(post.createdAt).toLocaleDateString() %>
+                                </span>
+                                <div class="post-actions">
+                                    <a href="/posts/<%= post.id %>/edit" class="btn btn-sm btn-secondary">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <form action="/posts/<%= post.id %>/delete" method="POST" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-danger" 
+                                                onclick="return confirm('Are you sure you want to delete this post?')">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p class="no-posts">You haven't created any posts yet.</p>
+                <a href="/posts/new" class="btn btn-primary">Create Your First Post</a>
+            <% } %>
+        </div>
+
+        <div class="dashboard-card">
+            <h2>Account Settings</h2>
+            <div class="settings-list">
+                <div class="setting-item">
+                    <label>Email</label>
+                    <p><%= user.email %></p>
+                </div>
+                <div class="setting-item">
+                    <label>Member Since</label>
+                    <p><%= new Date(user.createdAt).toLocaleDateString() %></p>
+                </div>
+                <div class="setting-actions">
+                    <a href="/auth/profile" class="btn btn-secondary">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+                    <a href="/auth/change-password" class="btn btn-secondary">
+                        <i class="fas fa-key"></i> Change Password
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h2>Recent Activity</h2>
+            <% if (locals.recentActivity && locals.recentActivity.length > 0) { %>
+                <div class="activity-list">
+                    <% locals.recentActivity.forEach(activity => { %>
+                        <div class="activity-item">
+                            <i class="fas <%= activity.icon %>"></i>
+                            <div class="activity-content">
+                                <p><%= activity.description %></p>
+                                <small><%= new Date(activity.timestamp).toLocaleString() %></small>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <p class="no-activity">No recent activity to show.</p>
+            <% } %>
+        </div>
+    </div>
+</div> 

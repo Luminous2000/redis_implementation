@@ -1,0 +1,47 @@
+<div class="auth-container">
+    <div class="auth-card">
+        <h1>Login</h1>
+        
+        <% if (locals.errors && locals.errors.length > 0) { %>
+            <div class="alert alert-error">
+                <ul>
+                    <% errors.forEach(error => { %>
+                        <li><%= error.msg %></li>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } %>
+
+        <form action="/auth/login" method="POST" class="auth-form">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    value="<%= locals.email || '' %>"
+                    required
+                    class="form-control"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required
+                    class="form-control"
+                >
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+
+        <div class="auth-links">
+            <p>Don't have an account? <a href="/auth/register">Register here</a></p>
+            <p><a href="/auth/forgot-password">Forgot your password?</a></p>
+        </div>
+    </div>
+</div> 

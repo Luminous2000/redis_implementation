@@ -1,0 +1,76 @@
+<div class="post-form-container">
+    <div class="post-form-header">
+        <h1>Create New Post</h1>
+        <a href="/posts" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Posts
+        </a>
+    </div>
+
+    <% if (locals.errors && locals.errors.length > 0) { %>
+        <div class="alert alert-error">
+            <ul>
+                <% locals.errors.forEach(error => { %>
+                    <li><%= error.msg %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+
+    <form action="/posts" method="POST" class="post-form">
+        <div class="form-group">
+            <label for="title">Post Title</label>
+            <input 
+                type="text" 
+                id="title" 
+                name="title" 
+                value="<%= locals.title || '' %>"
+                required
+                class="form-control"
+                placeholder="Enter a catchy title for your post"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="content">Post Content</label>
+            <textarea 
+                id="content" 
+                name="content" 
+                required
+                class="form-control"
+                rows="10"
+                placeholder="Write your post content here..."
+            ><%= locals.content || '' %></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Publish Post
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="saveAsDraft()">
+                <i class="fas fa-file-alt"></i> Save as Draft
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+function saveAsDraft() {
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    
+    if (!title || !content) {
+        alert('Please fill in both title and content before saving as draft.');
+        return;
+    }
+
+    // Save to localStorage
+    const draft = {
+        title,
+        content,
+        savedAt: new Date().toISOString()
+    };
+    
+    localStorage.setItem('postDraft', JSON.stringify(draft));
+    alert('Post saved as draft successfully!');
+}
+</script> 
